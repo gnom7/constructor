@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <property name="type.id" value="BIGINT"/>
+    <property name="type.integer" value="INTEGER"/>
+    <property name="type.string" value="VARCHAR(128)"/>
+    <property name="type.enum" value="VARCHAR(255)"/>
+    <property name="type.text" value="TEXT" dbms="postgresql,h2"/>
+    <property name="type.boolean" value="BOOLEAN"/>
+    <property name="type.date" value="TIMESTAMP"/>
+    <property name="type.blob" value="TEXT" dbms="postgresql,h2"/>
+
+    <!-- WARNING: The sequence.incrementBy must match the entity @SequenceGenerator.allocationSize to prevent id overlap. -->
+    <property name="sequence.incrementBy" value="10000"/>
+
+    <changeSet id="20161115_CREATE_USERS_TABLE" author="p.nesterovich@itransition.com">
+        <preConditions>
+            <tableExists tableName="TENANT"/>
+            <not>
+                <tableExists tableName="USERS"/>
+            </not>
+        </preConditions>
+
+        <comment>Create the USERS table.</comment>
+        <createTable tableName="USERS">
+            <column name="ID" type="${type.id}">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_USER_ID"/>
+            </column>
+            <column name="TENANT_ID" type="${type.id}">
+                <constraints foreignKeyName="FK_USERS_TENANT_ID_TENANT_ID"
+                             referencedTableName="TENANT" referencedColumnNames="ID" deleteCascade="true"/>
+            </column>
+            <column name="ROLE" type="${type.enum}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="${type.string}">
+                <constraints nullable="false" unique="true" uniqueConstraintName="UQ_USERS_NAME"/>
+            </column>
+            <column name="PASSWORD" type="${type.string}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EMAIL" type="${type.string}">
+                <constraints nullable="false" unique="true" uniqueConstraintName="UQ_USERS_EMAIL"/>
+            </column>
+            <column name="PHONE" type="${type.string}"/>
+            <column name="ORGANIZATION" type="${type.string}"/>
+            <column name="ACCOUNT" type="${type.string}"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20161115_CREATE_USERS_SEQUENCE" author="p.nesterovich@itransition.com">
+        <preConditions>
+            <not>
+                <sequenceExists sequenceName="USERS_SEQUENCE"/>
+            </not>
+        </preConditions>
+
+        <comment>Add the USERS_SEQUENCE sequence.</comment>
+        <createSequence sequenceName="USERS_SEQUENCE" startValue="1" incrementBy="${sequence.incrementBy}"/>
+    </changeSet>
+
+    <changeSet id="20161125_INSERT_DEFAULT_USER" author="p.nesterovich@itransition.com">
+        <preConditions>
+            <tableExists tableName="USERS"/>
+            <tableIsEmpty tableName="USERS"/>
+        </preConditions>
+
+        <insert tableName="USERS">
+            <column name="ID" valueComputed="USERS_SEQUENCE.NEXTVAL"/>
+            <column name="ROLE" value="ADMINISTRATOR"/>
+            <column name="NAME" value="admin"/>
+            <column name="PASSWORD" value="$2a$11$YIksjWPos2n2mF8hoZdAnuCHSEqVm3AqEFRZIIpeJFuXTX4CPIhj6"/>
+            <column name="EMAIL" value="admin@mailinator.com"/>
+        </insert>
+
+        <modifySql dbms="postgresql">
+            <replace replace="USERS_SEQUENCE.NEXTVAL" with="NEXTVAL('USERS_SEQUENCE')"/>
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="20173101_CREATE_IDX_APP_ENROLLMENT_IDENTIFIER" author="p.nesterovich@itransition.com">
+        <preConditions>
+            <tableExists tableName="APP"/>
+        </preConditions>
+
+        <comment>Create the IDX_APP_ENROLLMENT_IDENTIFIER index.</comment>
+        <createIndex indexName="IDX_APP_ENROLLMENT_IDENTIFIER" tableName="APP">
+            <column name="ENROLLMENT_IDENTIFIER" type="${type.string}"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
