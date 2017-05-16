@@ -36,4 +36,10 @@
     <bean id="exceptionTranslationPostProcessor"
           class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
+    <!-- Liquibase -->
+    <!--<bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+        <!--<property name="changeLog" value="classpath:liquibase/constructor-changelog.xml"/>-->
+    <!--</bean>-->
+
 </beans>

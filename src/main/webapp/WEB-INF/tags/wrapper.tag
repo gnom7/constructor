@@ -8,8 +8,8 @@
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>${title}</title>
-    <%@ include file="/jsp/fragments/styles.jsp" %>
-    <%@ include file="/jsp/fragments/scripts.jsp" %>
+    <%@ include file="/WEB-INF/view/fragments/styles.jsp" %>
+    <%@ include file="/WEB-INF/view/fragments/scripts.jsp" %>
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -50,6 +50,6 @@
 <div class="container">
     <jsp:invoke fragment="body"/>
 </div>
-<%@ include file="/jsp/fragments/footer.jsp" %>
+<%@ include file="/WEB-INF/view/fragments/footer.jsp" %>
 </body>
 </html>

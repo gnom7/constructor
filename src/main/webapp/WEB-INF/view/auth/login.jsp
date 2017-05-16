@@ -4,6 +4,7 @@
 
 <t:wrapper title="Login">
     <jsp:attribute name="body">
+        <br/>
         <form class="col-xs-offset-4 col-xs-4" method="post" action="<c:url value="/login"/>">
             <div class="form-group">
                 <label>Email: <input class="form-control" name="email" type="text"></label>
