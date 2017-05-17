@@ -50,6 +50,6 @@
 <div class="container">
     <jsp:invoke fragment="body"/>
 </div>
-<%@ include file="/WEB-INF/view/fragments/footer.jsp" %>
+<%@ include file="/WEB-INF/views/fragments/footer.jsp" %>
 </body>
 </html>
