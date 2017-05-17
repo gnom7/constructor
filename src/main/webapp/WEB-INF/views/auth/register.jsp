@@ -12,14 +12,19 @@
     <p>To sign-up for a free basic account please provide us with some basic information using
         the contact form below. Please use valid credentials.</p>
     <form class="form" method="post" action="<c:url value="/register"/>">
-        <input type="text" class="name" placeholder="Name">
+        <input type="text" class="name" name="name" placeholder="Name">
         <div>
             <p class="name-help">Please enter your first and last name.</p>
         </div>
-        <input type="email" class="email" placeholder="Email">
+        <input type="email" class="email" name="email" placeholder="Email">
         <div>
             <p class="email-help">Please enter your current email address.</p>
         </div>
+        <input type="password" class="password-field" name="password" placeholder="Password">
+        <div>
+            <p class="email-help">Please enter your password.</p>
+        </div>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         <input type="submit" class="submit" value="Register">
     </form>
 </div>

@@ -34,11 +34,10 @@ public class AuthController {
     @PostMapping("/register")
     public ModelAndView postSignUp(@ModelAttribute("user") UserDto userDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-
+            return new ModelAndView("error/exception", bindingResult.getModel());
         }
         userService.register(userDto);
-        ModelAndView mav = new ModelAndView("/");
-        return mav;
+        return new ModelAndView("/");
     }
 
 }

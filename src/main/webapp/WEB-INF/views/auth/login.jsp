@@ -7,8 +7,8 @@
         <br/>
         <form class="col-xs-offset-4 col-xs-4" method="post" action="<c:url value="/login"/>">
             <div class="form-group">
-                <label>Email: <input class="form-control" name="email" type="text"></label>
-                <label>Password: <input class="form-control" name="password" type="password"></label>
+                <input name="email" type="text" placeholder="Email">
+                <input name="password" type="password" placeholder="Password">
             </div>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <input class="btn btn-default" type="submit" value="Login">
