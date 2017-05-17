@@ -1,4 +1,4 @@
-package com.k.web.constructor.Util;
+package com.k.web.constructor.util;
 
 public final class Constants {
 

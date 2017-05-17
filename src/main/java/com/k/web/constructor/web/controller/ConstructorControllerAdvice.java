@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 import java.util.Set;
 
 @ControllerAdvice
-public class ConstructorControllerAdvise {
+public class ConstructorControllerAdvice {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConstructorControllerAdvise.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConstructorControllerAdvice.class);
 
     @Autowired
     private Set<Validator> validators;
@@ -28,17 +29,16 @@ public class ConstructorControllerAdvise {
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", ex);
         mav.addObject("url", req.getRequestURL());
-        mav.setViewName("errors/error");
+        mav.setViewName("errors/exception");
         return mav;
     }
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        validators.forEach(validator -> {
-            if (validator.supports(binder.getTarget().getClass())) {
-                binder.addValidators(validator);
-            }
-        });
+        Optional.ofNullable(binder.getTarget()).ifPresent(
+                target -> validators.stream()
+                        .filter(validator -> validator.supports(target.getClass()))
+                        .forEach(binder::addValidators));
     }
 
 }

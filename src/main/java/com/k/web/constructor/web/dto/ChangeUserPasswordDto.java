@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class UserChangePasswordDto implements Dto {
+public class ChangeUserPasswordDto implements Dto {
 
     @NotNull
     private String email;

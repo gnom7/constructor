@@ -2,7 +2,7 @@ package com.k.web.constructor.validation;
 
 import com.k.web.constructor.model.user.User;
 import com.k.web.constructor.model.user.UserRepository;
-import com.k.web.constructor.web.dto.UserChangePasswordDto;
+import com.k.web.constructor.web.dto.ChangeUserPasswordDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -11,14 +11,14 @@ import org.springframework.validation.Validator;
 
 import java.util.Objects;
 
-import static com.k.web.constructor.Util.Constants.MIN_PASSWORD_SIZE;
-import static com.k.web.constructor.Util.Constants.USER_CHANGE_PASSWORD_WRONG_EMAIL;
-import static com.k.web.constructor.Util.Constants.USER_CHANGE_PASSWORD_WRONG_NEW_PASSWORD;
-import static com.k.web.constructor.Util.Constants.USER_CHANGE_PASSWORD_WRONG_OLD_PASSWORD;
-import static com.k.web.constructor.Util.Constants.USER_CHANGE_PASSWORD_WRONG_PASSWORD_CONFIRMATION;
+import static com.k.web.constructor.util.Constants.MIN_PASSWORD_SIZE;
+import static com.k.web.constructor.util.Constants.USER_CHANGE_PASSWORD_WRONG_EMAIL;
+import static com.k.web.constructor.util.Constants.USER_CHANGE_PASSWORD_WRONG_NEW_PASSWORD;
+import static com.k.web.constructor.util.Constants.USER_CHANGE_PASSWORD_WRONG_OLD_PASSWORD;
+import static com.k.web.constructor.util.Constants.USER_CHANGE_PASSWORD_WRONG_PASSWORD_CONFIRMATION;
 
 @Component
-public class UserChangePasswordDtoValidator implements Validator {
+public class ChangeUserPasswordDtoValidator implements Validator {
 
     @Autowired
     private UserRepository userRepository;
@@ -28,14 +28,14 @@ public class UserChangePasswordDtoValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return UserChangePasswordDto.class.isAssignableFrom(clazz);
+        return ChangeUserPasswordDto.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
         Objects.requireNonNull(errors, "Null error object in validator args.");
 
-        UserChangePasswordDto dto = (UserChangePasswordDto) target;
+        ChangeUserPasswordDto dto = (ChangeUserPasswordDto) target;
         String email = dto.getEmail();
         String oldPassword = dto.getOldPassword();
         String newPassword = dto.getNewPassword();
