@@ -8,8 +8,8 @@
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>${title}</title>
-    <%@ include file="/WEB-INF/view/fragments/styles.jsp" %>
-    <%@ include file="/WEB-INF/view/fragments/scripts.jsp" %>
+    <%@ include file="/WEB-INF/views/fragments/styles.jsp" %>
+    <%@ include file="/WEB-INF/views/fragments/scripts.jsp" %>
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
