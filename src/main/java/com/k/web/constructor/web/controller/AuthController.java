@@ -2,7 +2,7 @@ package com.k.web.constructor.web.controller;
 
 import com.k.web.constructor.service.UserService;
 import com.k.web.constructor.web.dto.UserDto;
-import com.k.web.constructor.web.exception.NotFoundException;
+import com.k.web.constructor.web.exception.NotFound404Exception;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,7 +47,7 @@ public class AuthController {
         if (userService.activateUser(token)) {
             return new ModelAndView("auth/login");
         } else {
-            throw new NotFoundException();
+            throw new NotFound404Exception();
         }
     }
 

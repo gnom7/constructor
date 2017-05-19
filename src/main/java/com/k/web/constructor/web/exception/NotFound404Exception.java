@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @since 19.05.17
  */
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class NotFoundException extends RuntimeException {
+public class NotFound404Exception extends RuntimeException {
 }
