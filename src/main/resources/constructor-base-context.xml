@@ -9,6 +9,7 @@
 
     <context:component-scan base-package="com.k.web.constructor.service"/>
     <context:component-scan base-package="com.k.web.constructor.validation"/>
+    <context:component-scan base-package="com.k.web.constructor.event"/>
 
     <context:property-placeholder properties-ref="properties"/>
     <util:properties id="properties" location="classpath:conf/${properties.location}/constructor.properties"/>
@@ -24,5 +25,12 @@
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="mail.mycompany.com"/>
     </bean>
+
+    <!-- Scheduled -->
+    <task:scheduler id="threadPoolTaskScheduler" pool-size="3"/>
+
+    <task:scheduled-tasks>
+        <task:scheduled ref="scheduledTasksService" method="removeExpiredTokensFromDB" trigger="removeExpiredTokensFromDBTrigger"/>
+    </task:scheduled-tasks>
 
 </beans>

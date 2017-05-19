@@ -1,18 +1,19 @@
-package com.k.web.constructor.service;
+package com.k.web.constructor.event.listener;
 
+import com.k.web.constructor.event.UserRegistrationEvent;
 import com.k.web.constructor.model.token.RegistrationToken;
 import com.k.web.constructor.model.token.RegistrationTokenRepository;
 import com.k.web.constructor.model.user.User;
-import lombok.Getter;
+import com.k.web.constructor.service.ConfigurationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.mail.internet.MimeMessage;
@@ -21,11 +22,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-@Service
+@Component
 @Async(value = "mailingServiceTaskExecutor")
-public class MailingService implements ApplicationListener<MailingService.UserRegistrationEvent> {
+public class MailingServiceListener implements ApplicationListener<UserRegistrationEvent> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MailingService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MailingServiceListener.class);
 
     private String endpoint;
 
@@ -43,6 +44,7 @@ public class MailingService implements ApplicationListener<MailingService.UserRe
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void onApplicationEvent(UserRegistrationEvent event) {
         User user = event.getUser();
         RegistrationToken token = createRegistrationToken(user);
@@ -50,7 +52,7 @@ public class MailingService implements ApplicationListener<MailingService.UserRe
             MimeMessage message = sender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
             helper.setFrom("Constructor");
-            helper.setSubject("constructor. Registration token.");
+            helper.setSubject("Constructor. Registration token.");
             helper.setTo(user.getEmail());
             helper.setText("<html><body>Please <a href='" + endpoint + token.getToken()
                     + "'>verify</a> your registration.</body></html>", true);
@@ -68,22 +70,6 @@ public class MailingService implements ApplicationListener<MailingService.UserRe
         token.setExpiration(Instant.now().plus(1, ChronoUnit.DAYS));
 
         return tokenRepository.save(token);
-    }
-
-    public static class UserRegistrationEvent extends ApplicationEvent {
-
-        @Getter
-        private User user;
-
-        /**
-         * Create a new ApplicationEvent.
-         *
-         * @param user the object on which the event initially occurred (never {@code null})
-         */
-        public UserRegistrationEvent(User user) {
-            super(user);
-            this.user = user;
-        }
     }
 
 }

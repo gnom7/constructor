@@ -1,5 +1,8 @@
 package com.k.web.constructor.service;
 
+import com.k.web.constructor.event.UserRegistrationEvent;
+import com.k.web.constructor.model.token.RegistrationToken;
+import com.k.web.constructor.model.token.RegistrationTokenRepository;
 import com.k.web.constructor.model.user.Role;
 import com.k.web.constructor.model.user.User;
 import com.k.web.constructor.model.user.UserRepository;
@@ -15,15 +18,21 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 
 @Service(value = "userDetailsService")
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RegistrationTokenRepository tokenRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -54,7 +63,7 @@ public class UserServiceImpl implements UserService {
     public void register(UserDto userDto) {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User user = userRepository.save(userDtoToUserConverter.convert(userDto));
-        MailingService.UserRegistrationEvent event = new MailingService.UserRegistrationEvent(user);
+        UserRegistrationEvent event = new UserRegistrationEvent(user);
         eventPublisher.publishEvent(event);
     }
 
@@ -63,6 +72,20 @@ public class UserServiceImpl implements UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
         return principal instanceof UserDto ? (UserDto) principal : null;
+    }
+
+    @Override
+    public boolean verifyRegistration(String registrationToken) {
+        RegistrationToken token = tokenRepository.findByToken(registrationToken);
+        if (Objects.nonNull(token) && ChronoUnit.MINUTES.between(Instant.now(), token.getExpiration()) > 0) {
+            User user = token.getUser();
+            user.setAccountNonLocked(true);
+            userRepository.save(user);
+            tokenRepository.delete(token);
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
