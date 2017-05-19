@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import java.time.Instant;
 
 @Entity
-@Table(name = "REGISTRATION_TOKEN")
+@Table(name = "registration_token")
 @Data
 public class RegistrationToken {
 

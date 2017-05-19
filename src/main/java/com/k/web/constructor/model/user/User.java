@@ -1,5 +1,6 @@
 package com.k.web.constructor.model.user;
 
+import com.k.web.constructor.model.site.Site;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -9,12 +10,13 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.util.Set;
 
 @Entity
-@Table(name = "USERS", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 @Data
 public class User {
 
@@ -37,5 +39,9 @@ public class User {
 
     @Column
     private boolean accountNonLocked;
+
+    @Column
+    @OneToMany(mappedBy = "user")
+    private Set<Site> sites;
 
 }
