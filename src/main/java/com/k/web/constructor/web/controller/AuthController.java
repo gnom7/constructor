@@ -44,8 +44,8 @@ public class AuthController {
 
     @GetMapping("/registration/token/{token}")
     public ModelAndView verifyRegistration(@PathVariable String token) {
-        if (userService.verifyRegistration(token)) {
-            return new ModelAndView("index");
+        if (userService.activateUser(token)) {
+            return new ModelAndView("auth/login");
         } else {
             throw new NotFoundException();
         }

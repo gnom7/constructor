@@ -9,5 +9,5 @@ public interface UserService extends UserDetailsService {
 
     UserDto logged();
 
-    boolean verifyRegistration(String registrationToken);
+    boolean activateUser(String registrationToken);
 }
