@@ -37,7 +37,7 @@
                         <a href="<c:url value="/sites"/>">My sites</a>
                     </li>
                     <li>
-                        <a href="<c:url value="/logout"/>">Logout</a>
+                        <a href="#" onclick="$.post('<c:url value="/logout"/>')">Logout</a>
                     </li>
                 </ul>
             </div>

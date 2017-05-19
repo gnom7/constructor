@@ -9,7 +9,8 @@
     <sec:http use-expressions="true">
         <sec:intercept-url pattern="/login" access="permitAll()"/>
         <sec:intercept-url pattern="/register" access="permitAll()"/>
-        <sec:intercept-url pattern="/registration/*" access="permitAll()"/>
+        <sec:intercept-url pattern="/registration" access="permitAll()"/>
+        <sec:intercept-url pattern="/registration/token/*" access="permitAll()"/>
         <sec:intercept-url pattern="/static/**" access="permitAll()"/>
         <sec:intercept-url pattern="/webjars/**" access="permitAll()"/>
         <sec:intercept-url pattern="/**" access="isAuthenticated()"/>
