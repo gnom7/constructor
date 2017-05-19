@@ -3,12 +3,14 @@ package com.k.web.constructor.model.page;
 import com.k.web.constructor.model.site.Site;
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.Set;
 
 /**
  * @author a.kolenchenko
@@ -26,5 +28,8 @@ public class Page {
     @ManyToOne
     @JoinColumn(name = "site_id")
     private Site site;
+
+    @Column
+    private Set<String> imageUrls;
 
 }
