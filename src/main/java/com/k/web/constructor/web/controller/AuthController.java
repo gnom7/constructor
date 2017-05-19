@@ -24,7 +24,7 @@ public class AuthController {
         return Objects.nonNull(userService.logged()) ? new ModelAndView("index") : new ModelAndView("auth/login");
     }
 
-    @GetMapping("/register")
+    @GetMapping("/registration")
     public ModelAndView getSignUp() {
         ModelAndView mav = new ModelAndView("auth/register");
         mav.addObject("user", new UserDto());
@@ -34,10 +34,10 @@ public class AuthController {
     @PostMapping("/register")
     public ModelAndView postSignUp(@ModelAttribute("user") UserDto userDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("error/exception", bindingResult.getModel());
+            return new ModelAndView("errors/exception", bindingResult.getModel());
         }
         userService.register(userDto);
-        return new ModelAndView("/");
+        return new ModelAndView("index");
     }
 
 }

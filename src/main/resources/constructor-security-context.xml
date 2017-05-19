@@ -9,6 +9,7 @@
     <sec:http use-expressions="true">
         <sec:intercept-url pattern="/login" access="permitAll()"/>
         <sec:intercept-url pattern="/register" access="permitAll()"/>
+        <sec:intercept-url pattern="/registration/*" access="permitAll()"/>
         <sec:intercept-url pattern="/static/**" access="permitAll()"/>
         <sec:intercept-url pattern="/webjars/**" access="permitAll()"/>
         <sec:intercept-url pattern="/**" access="isAuthenticated()"/>
@@ -17,7 +18,8 @@
                 login-page='/login'
                 username-parameter="email"
                 password-parameter="password"
-                authentication-failure-forward-url="/login?error"/>
+                authentication-failure-forward-url="/login?error"
+                authentication-success-forward-url="/"/>
 
         <sec:logout
                 invalidate-session="true"
@@ -26,7 +28,7 @@
 
     </sec:http>
 
-    <sec:authentication-manager>
+    <sec:authentication-manager id="authenticationManager">
         <sec:authentication-provider user-service-ref="userDetailsService">
             <sec:password-encoder ref="passwordEncoder"/>
         </sec:authentication-provider>

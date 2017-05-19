@@ -4,8 +4,10 @@ import com.k.web.constructor.model.user.Role;
 import com.k.web.constructor.model.user.User;
 import com.k.web.constructor.model.user.UserRepository;
 import com.k.web.constructor.web.dto.UserDto;
-import com.k.web.constructor.web.dto.UserDtoConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,9 +24,16 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private Converter<User, UserDto> userToUserDtoConverter;
+    @Autowired
+    private Converter<UserDto, User> userDtoToUserConverter;
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -38,13 +47,15 @@ public class UserServiceImpl implements UserService {
             return dto;
         }
         User user = userRepository.findByEmail(username);
-        return UserDtoConverter.toDto(user);
+        return userToUserDtoConverter.convert(user);
     }
 
     @Override
     public void register(UserDto userDto) {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        userRepository.save(UserDtoConverter.fromDto(userDto));
+        User user = userRepository.save(userDtoToUserConverter.convert(userDto));
+        MailingService.UserRegistrationEvent event = new MailingService.UserRegistrationEvent(user);
+        eventPublisher.publishEvent(event);
     }
 
     @Override
