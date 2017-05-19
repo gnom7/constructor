@@ -55,7 +55,7 @@ public class MailingServiceListener implements ApplicationListener<UserRegistrat
             helper.setSubject("Constructor. Registration token.");
             helper.setTo(user.getEmail());
             helper.setText("<html><body>Please <a href='" + endpoint + token.getToken()
-                    + "'>verify</a> your registration.</body></html>", true);
+                    + "'>verify</a> your email.</body></html>", true);
             sender.send(message);
         } catch (Exception e) {
             LOGGER.error("Cannot send registration confirmation message to \"" + user.getEmail() + "\"", e);
