@@ -1,3 +1,4 @@
+<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ tag description="Simple wrapper tag" pageEncoding="UTF-8" %>
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="body" fragment="true" %>
@@ -37,7 +38,7 @@
                         <a href="<c:url value="/sites"/>">My sites</a>
                     </li>
                     <li>
-                        <a href="#" onclick="$.post('<c:url value="/logout"/>')">Logout</a>
+                        <a href="" onclick="$.post('<c:url value="/logout"/>')">Logout</a>
                     </li>
                 </ul>
             </div>

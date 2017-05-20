@@ -19,14 +19,15 @@
                 login-page='/login'
                 username-parameter="email"
                 password-parameter="password"
-                authentication-failure-forward-url="/login?error"
-                authentication-success-forward-url="/"/>
+                authentication-success-handler-ref="authenticationSuccessHandler"
+                authentication-failure-handler-ref="authenticationFailureHandler"/>
 
         <sec:logout
-                invalidate-session="true"
                 logout-url="/logout"
-                logout-success-url="/login?logout"/>
+                logout-success-url="/login?logout"
+                invalidate-session="true"/>
 
+        <sec:remember-me/>
     </sec:http>
 
     <sec:authentication-manager id="authenticationManager">
@@ -36,5 +37,13 @@
     </sec:authentication-manager>
 
     <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <bean id="authenticationSuccessHandler"
+          class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler"/>
+    <bean id="authenticationFailureHandler"
+          class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+        <property name="defaultFailureUrl" value="/login?error"/>
+        <property name="useForward" value="false"/>
+    </bean>
 
 </beans>

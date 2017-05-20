@@ -5,13 +5,39 @@
 <t:wrapper title="Login">
     <jsp:attribute name="body">
         <br/>
-        <form class="col-xs-offset-4 col-xs-4" method="post" action="<c:url value="/login"/>">
-            <div class="form-group">
-                <input name="email" type="text" placeholder="Email">
-                <input name="password" type="password" placeholder="Password">
+        <div class="col-lg-6">
+            <div class="well bs-component">
+                <form class="form-horizontal" method="post" action="<c:url value="/login"/>">
+                    <fieldset>
+                        <legend>Login</legend>
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+                            <div class="col-lg-10">
+                                <input class="form-control" name="email" id="inputEmail" type="text" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                            <div class="col-lg-10">
+                                <input class="form-control" name="password" id="inputPassword" type="password" placeholder="Password">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="remember-me">
+                                        Remember me
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <button type="reset" class="btn btn-default" type="submit">Cancel</button>
+                                <button typeof="submit" class="btn btn-primary" type="submit">Login</button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                    </fieldset>
+                </form>
             </div>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-            <input class="btn btn-default" type="submit" value="Login">
-        </form>
+        </div>
     </jsp:attribute>
 </t:wrapper>

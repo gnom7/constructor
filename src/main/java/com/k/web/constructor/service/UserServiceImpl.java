@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -43,17 +44,21 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
+    @PostConstruct
+    private void init() {
+        if (Objects.isNull(userRepository.findByEmail("admin"))) {
+            User user = new User();
+            user.setEmail("admin");
+            user.setName("name");
+            user.setAccountNonLocked(true);
+            user.setRoles(new HashSet<>(Arrays.asList(Role.ROLE_USER, Role.ROLE_ADMIN)));
+            user.setPassword(new BCryptPasswordEncoder().encode("password"));
+            userRepository.save(user);
+        }
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if ("admin".equals(username)) {
-            UserDto dto = new UserDto();
-            dto.setEmail(username);
-            dto.setName(username);
-            dto.setAccountNonLocked(true);
-            dto.setRoles(new HashSet<>(Arrays.asList(Role.ROLE_USER, Role.ROLE_ADMIN)));
-            dto.setPassword(new BCryptPasswordEncoder().encode("password"));
-            return dto;
-        }
         User user = userRepository.findByEmail(username);
         return userToUserDtoConverter.convert(user);
     }
