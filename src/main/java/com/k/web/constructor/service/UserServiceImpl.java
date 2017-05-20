@@ -46,10 +46,10 @@ public class UserServiceImpl implements UserService {
 
     @PostConstruct
     private void init() {
-        if (Objects.isNull(userRepository.findByEmail("admin"))) {
+        if (Objects.isNull(userRepository.findByUsername("admin"))) {
             User user = new User();
             user.setEmail("admin");
-            user.setName("name");
+            user.setUsername("admin");
             user.setAccountNonLocked(true);
             user.setRoles(new HashSet<>(Arrays.asList(Role.ROLE_USER, Role.ROLE_ADMIN)));
             user.setPassword(new BCryptPasswordEncoder().encode("password"));
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username);
+        User user = userRepository.findByUsername(username);
         return userToUserDtoConverter.convert(user);
     }
 

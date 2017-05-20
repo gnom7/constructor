@@ -3,5 +3,9 @@
 <jsp:useBean id="now" class="java.util.Date"/>
 
 <footer>
-    <fmt:formatDate value="${now}" pattern="yyyy"/> &copy; K
+    <div class="row">
+        <div class="col-lg-12">
+            <p><fmt:formatDate value="${now}" pattern="yyyy"/> &copy; Made by <a href="<c:url value="https://github.com/gnom7"/>" target="_blank">gnom_7</a></p>
+        </div>
+    </div>
 </footer>

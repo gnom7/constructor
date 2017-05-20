@@ -17,7 +17,7 @@
 
         <sec:form-login
                 login-page='/login'
-                username-parameter="email"
+                username-parameter="username"
                 password-parameter="password"
                 authentication-success-handler-ref="authenticationSuccessHandler"
                 authentication-failure-handler-ref="authenticationFailureHandler"/>

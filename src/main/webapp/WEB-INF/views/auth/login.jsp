@@ -4,22 +4,22 @@
 
 <t:wrapper title="Login">
     <jsp:attribute name="body">
-        <br/>
+        <br/><br/>
         <div class="col-lg-6">
             <div class="well bs-component">
                 <form class="form-horizontal" method="post" action="<c:url value="/login"/>">
                     <fieldset>
                         <legend>Login</legend>
                         <div class="form-group">
-                            <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+                            <label for="loginInputEmail" class="col-lg-2 control-label">Username</label>
                             <div class="col-lg-10">
-                                <input class="form-control" name="email" id="inputEmail" type="text" placeholder="Email">
+                                <input class="form-control" name="username" id="loginInputEmail" type="text" placeholder="Username">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                            <label for="loginInputPassword" class="col-lg-2 control-label">Password</label>
                             <div class="col-lg-10">
-                                <input class="form-control" name="password" id="inputPassword" type="password" placeholder="Password">
+                                <input class="form-control" name="password" id="loginInputPassword" type="password" placeholder="Password">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="remember-me">
@@ -30,8 +30,42 @@
                         </div>
                         <div class="form-group">
                             <div class="col-lg-10 col-lg-offset-2">
-                                <button type="reset" class="btn btn-default" type="submit">Cancel</button>
-                                <button typeof="submit" class="btn btn-primary" type="submit">Login</button>
+                                <button type="reset" class="btn btn-default">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="well bs-component">
+                <form class="form-horizontal" method="post" action="<c:url value="/register"/>">
+                    <fieldset>
+                        <legend>Or register</legend>
+                        <div class="form-group">
+                            <label for="registrationInputEmail" class="col-lg-2 control-label">Email</label>
+                            <div class="col-lg-10">
+                                <input class="form-control" name="email" id="registrationInputEmail" type="text" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="registrationInputUsername" class="col-lg-2 control-label">Username</label>
+                            <div class="col-lg-10">
+                                <input class="form-control" name="username" id="registrationInputUsername" type="text" placeholder="Username">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                            <div class="col-lg-10">
+                                <input class="form-control" name="password" id="inputPassword" type="password" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <button type="reset" class="btn btn-default">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Login</button>
                             </div>
                         </div>
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">

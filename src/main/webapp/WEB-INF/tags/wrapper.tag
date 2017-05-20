@@ -28,18 +28,59 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="" id="themes" aria-hidden="true">
+                            Themes
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-hidden="true">
+                            <li>
+                                <a href="<c:url value="/theme?dark"/>">Dark</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="<c:url value="/theme?bright"/>">Bright</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li>
                         <a href="<c:url value="/gallery"/>">Gallery</a>
                     </li>
-                    <li>
-                        <a href="<c:url value="/profile"/>">Profile</a>
+                    <c:if test="${not empty pageContext.request.userPrincipal}">
+                        <li>
+                            <a href="<c:url value="/profile"/>">Profile</a>
+                        </li>
+                        <li>
+                            <a href="<c:url value="/sites"/>">My sites</a>
+                        </li>
+                    </c:if>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="" id="i18n" aria-hidden="true">
+                            <span class="glyphicon glyphicon-globe"></span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-hidden="true">
+                            <li>
+                                <a href="<c:url value="/lang?eng"/>">English</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="<c:url value="/lang?ru"/>">Russian</a>
+                            </li>
+                        </ul>
                     </li>
-                    <li>
-                        <a href="<c:url value="/sites"/>">My sites</a>
-                    </li>
-                    <li>
-                        <a href="" onclick="$.post('<c:url value="/logout"/>')">Logout</a>
-                    </li>
+                    <c:choose>
+                        <c:when test="${not empty pageContext.request.userPrincipal}">
+                            <li>
+                                <a href="" onclick="$.post('<c:url value="/logout"/>')">Logout</a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li>
+                                <a href="<c:url value="/login"/>">Login</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

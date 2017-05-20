@@ -20,7 +20,7 @@ public class UserDto implements UserDetails, CredentialsContainer, Dto {
     private Long id;
 
     @Size(min = 4, max = 20)
-    private String name;
+    private String username;
 
     @Email
     private String email;
@@ -35,11 +35,6 @@ public class UserDto implements UserDetails, CredentialsContainer, Dto {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream().map(Role::name).map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
     }
 
     @Override

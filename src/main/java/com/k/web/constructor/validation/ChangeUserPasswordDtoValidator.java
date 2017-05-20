@@ -12,7 +12,7 @@ import org.springframework.validation.Validator;
 import java.util.Objects;
 
 import static com.k.web.constructor.util.Constants.MIN_PASSWORD_SIZE;
-import static com.k.web.constructor.util.Constants.USER_CHANGE_PASSWORD_WRONG_EMAIL;
+import static com.k.web.constructor.util.Constants.USER_CHANGE_PASSWORD_WRONG_USERNAME;
 import static com.k.web.constructor.util.Constants.USER_CHANGE_PASSWORD_WRONG_NEW_PASSWORD;
 import static com.k.web.constructor.util.Constants.USER_CHANGE_PASSWORD_WRONG_OLD_PASSWORD;
 import static com.k.web.constructor.util.Constants.USER_CHANGE_PASSWORD_WRONG_PASSWORD_CONFIRMATION;
@@ -36,15 +36,15 @@ public class ChangeUserPasswordDtoValidator implements Validator {
         Objects.requireNonNull(errors, "Null error object in validator args.");
 
         ChangeUserPasswordDto dto = (ChangeUserPasswordDto) target;
-        String email = dto.getEmail();
+        String username = dto.getUsername();
         String oldPassword = dto.getOldPassword();
         String newPassword = dto.getNewPassword();
         String newPasswordConfirmation = dto.getNewPasswordConfirmation();
 
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByUsername(username);
 
         if (Objects.isNull(user)) {
-            errors.rejectValue("email", USER_CHANGE_PASSWORD_WRONG_EMAIL);
+            errors.rejectValue("username", USER_CHANGE_PASSWORD_WRONG_USERNAME);
         }
 
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {

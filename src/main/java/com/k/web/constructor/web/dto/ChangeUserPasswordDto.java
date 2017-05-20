@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 public class ChangeUserPasswordDto implements Dto {
 
     @NotNull
-    private String email;
+    private String username;
 
     @NotNull
     private String oldPassword;
