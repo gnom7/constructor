@@ -8,7 +8,6 @@
 <c:choose>
     <c:when test="${not empty cookie.theme}">
         <link href="<c:url value="/webjars/${cookie.theme.value}/3.3.7/css/bootstrap.min.css"/>" rel="stylesheet"/>
-        <link href="<c:url value="/webjars/${cookie.theme.value}/3.3.7/css/bootstrap-theme.min.css"/>" rel="stylesheet"/>
     </c:when>
     <c:otherwise>
         <link href="<c:url value="/webjars/bootswatch-darkly/3.3.7/css/bootstrap.min.css"/>" rel="stylesheet"/>

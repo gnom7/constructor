@@ -35,11 +35,11 @@
                         </a>
                         <ul class="dropdown-menu" aria-hidden="true">
                             <li>
-                                <a href="<c:url value="/theme?dark"/>">Dark</a>
+                                <a id="selectDarkTheme" href="">Dark</a>
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a href="<c:url value="/theme?bright"/>">Bright</a>
+                                <a id="selectBrightTheme" href="">Bright</a>
                             </li>
                         </ul>
                     </li>
