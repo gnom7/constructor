@@ -17,7 +17,7 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1">
+                        data-target="#bs-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -26,7 +26,13 @@
                 <a class="navbar-brand" href="<c:url value="/"/>">Constructor</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="" id="themes" aria-hidden="true">
@@ -52,6 +58,9 @@
                         </li>
                         <li>
                             <a href="<c:url value="/sites"/>">My sites</a>
+                        </li>
+                        <li>
+                            <a href="<c:url value="/constructor"/>">Constructor</a>
                         </li>
                     </c:if>
                     <li class="dropdown">
